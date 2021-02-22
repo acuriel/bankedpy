@@ -57,12 +57,12 @@ class PaymentSessionRequest(PaymentSessionBase):
     number_of_payments:Optional[int] = None
 
 
-class PaymentSessionResponse(BaseModel):
+class PaymentSessionResponse(PaymentSessionBase):
     id:str
     amount:int
     currency:Currency
     state:PaymentSessionState
-    created_at:datetime
-    sent_at:Optional[datetime] = None
+    created_at:str
+    sent_at:Optional[str] = None
     url:HttpUrl
 

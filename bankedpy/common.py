@@ -26,3 +26,8 @@ class EntityClient:
     def __init__(self, uri:str, session:SessionHandler) -> None:
         self._uri = uri
         self._session = session
+
+
+class NotFoundError(Exception):
+    pass
+

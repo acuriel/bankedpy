@@ -1,5 +1,5 @@
 from .schemas import *
-from bankedpy.common import EntityClient, SessionHandler
+from banked_receiver.bankedpy.common import EntityClient, SessionHandler, NotFoundError
 from urllib.parse import urljoin
 
 
@@ -23,15 +23,19 @@ class PaymentSessionClient(PaymentSessionClientBase):
         res = self._session.post(self._uri, data=data)
         if res.status_code == 201:
             return PaymentSessionResponse(**res.json())
-        return None
+        raise Exception(f"Unexpected Response {res.status_code}")
 
     def retrieve(self, id:str) -> PaymentSessionResponse:
         res = self._session.get(f'{self._uri}/{id}')
         if res.status_code == 200:
             return PaymentSessionResponse(**res.json())
+        if res.status_code == 404:
+            raise NotFoundError 
+        raise Exception(f"Unexpected Response {res.status_code}")
     
     def remove(self, id:str):
         res = self._session.delete(f'{self._uri}/{id}')
-        if res.status_code == 204:
-            return True
-        return False
+        if res.status_code == 404:
+            raise NotFoundError
+        if res.status_code != 204:
+            raise Exception(f"Unexpected Response {res.status_code}")
