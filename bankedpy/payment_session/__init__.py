@@ -1,5 +1,5 @@
 from .schemas import *
-from banked_receiver.bankedpy.common import EntityClient, SessionHandler, NotFoundError
+from bankedpy.common import EntityClient, SessionHandler, NotFoundError
 from urllib.parse import urljoin
 
 
